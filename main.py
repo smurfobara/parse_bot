@@ -12,8 +12,9 @@ import re
 import datetime
 import schedule
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['test'])
 def send_e(message):
+    bot.send_message(message.chat.id, 'Ожидайте')
     try:
         br = webdriver.Chrome(service=path_)
         br.get('https://cbr.ru/key-indicators/')
@@ -42,7 +43,10 @@ def send_e(message):
         br.quit()
     bot.send_message(message.chat.id, f'Сводка данных\n==========\n==========\n\nПогода сегодня: {element_weath}\nТемпература: {element_temp}, ощущается как: {element_temp_o}\n\n==========\n\nКурс Доллара: {element_c_d}\nКурс Евро: {element_c_e}')
 
-
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    bot.send_message(message.chat.id, 'Привет! Этот бот может присылать сводку информации о погоде и курсах валют ежедневно в 10:00\nЧтобы включить ежедневную отправку в этом чате напишите /enabledist')
+    bot.send_message(message.chat.id, 'Чтобы бот работал в группе:\n1. Добавьте бота в группу и сделайте админом\n2. Пропишите в группе команду /start\n3. Пропишите команду /enabledist\nГотово!')
 
 @bot.message_handler(commands=['enabledist'])
 def enable_dist(message):
